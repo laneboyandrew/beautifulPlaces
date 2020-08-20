@@ -1,19 +1,17 @@
-import React, {useEffect, useState} from 'react';
+// import React, {useEffect, useState} from 'react';
+import React from 'react'
 import * as AuthSession from 'expo-auth-session';
 import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 
-async function App() {
+function App() {
     let redirectUrl = AuthSession.getRedirectUrl();
-    let result = await AuthSession.startAsync({
+    let result = AuthSession.startAsync({
         authUrl: 'https://oauth.vk.com/authorize?client_id=7563861&display=mobile&redirect_uri=https://auth.expo.io/@laneboyandrew/beautifulPlaces&response_type=token&v=5.92',
     });
-    console.log(result);
-    console.log("After Result")
 
-    // RESULT TYPE SUCCESS!!! NO!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     if (result.type === 'success') {
-        const response = await fetch('https://api.vk.com/method/users.get?v=5.92&access_token=' + result.params.access_token);
-        const user = await response.json();
+        const response = fetch('https://api.vk.com/method/users.get?v=5.92&access_token=' + result.params.access_token);
+        const user = response.json();
         console.log(user);
 
         this.setState({
@@ -44,16 +42,18 @@ async function App() {
             bottom: 0
         },
     });
-    render()
-    {
+
         return (
-        <View style={styles.container}>
-            <TouchableOpacity style={styles.loginBtn} onPress={App}>
-                <Text style={{color: "#fff"}}>Войти с помощью ВКонтакте</Text>
-            </TouchableOpacity>
-        </View>
+            <View>
+            <Text>Hello </Text>
+            </View>
+        // <View style={styles.container}>
+        //     <TouchableOpacity style={styles.loginBtn} onPress={App}>
+        //         <Text style={{color: "#fff"}}>Войти с помощью ВКонтакте</Text>
+        //     </TouchableOpacity>
+        // </View>
         );
-    }
+
 }
 
 export default App;
