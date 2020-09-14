@@ -1,59 +1,55 @@
-// import React, {useEffect, useState} from 'react';
-import React from 'react'
+import React, {useState, useEffect} from 'react';
+import 'react-native-gesture-handler';
+import {NavigationContainer} from "@react-navigation/native";
+
+import {StyleSheet, Text, View, TouchableOpacity, Button} from 'react-native';
 import * as AuthSession from 'expo-auth-session';
-import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
+import Location from "./components/Location";
+import AuthPage from "./components/AuthPage";
+import Profile from "./components/Profile";
+import EmailAuthorize from "./components/EmailAuthorize";
+import {createStackNavigator} from "@react-navigation/stack";
 
-function App() {
-    let redirectUrl = AuthSession.getRedirectUrl();
-    let result = AuthSession.startAsync({
-        authUrl: 'https://oauth.vk.com/authorize?client_id=7563861&display=mobile&redirect_uri=https://auth.expo.io/@laneboyandrew/beautifulPlaces&response_type=token&v=5.92',
-    });
+const Stack = createStackNavigator();
 
-    if (result.type === 'success') {
-        const response = fetch('https://api.vk.com/method/users.get?v=5.92&access_token=' + result.params.access_token);
-        const user = response.json();
-        console.log(user);
-
-        this.setState({
-            url: 'https://vk.com/id' + user.response[0].id,
-            name: user.response[0].first_name + ' ' + user.response[0].last_name,
-            avatar: user.response[0].photo_100
-        });
-    }
-    const styles = StyleSheet.create({
-        container: {
-            flex: 1,
-            backgroundColor: '#e9ebee',
-            alignItems: 'center',
-            justifyContent: 'center',
-        },
-        loginBtn: {
-            backgroundColor: '#4267b2',
-            paddingVertical: 10,
-            paddingHorizontal: 20,
-            borderRadius: 20
-        },
-        logoutBtn: {
-            backgroundColor: 'grey',
-            paddingVertical: 10,
-            paddingHorizontal: 20,
-            borderRadius: 20,
-            position: "absolute",
-            bottom: 0
-        },
-    });
-
+const App = () => {
+    const [hasError, setErrors] = useState(false);
+    const [userData, setState] = useState({});
+    if (userData !== {}) {
         return (
-            <View>
-            <Text>Hello </Text>
-            </View>
-        // <View style={styles.container}>
-        //     <TouchableOpacity style={styles.loginBtn} onPress={App}>
-        //         <Text style={{color: "#fff"}}>Войти с помощью ВКонтакте</Text>
-        //     </TouchableOpacity>
-        // </View>
-        );
-
-}
-
+            <NavigationContainer>
+                <Stack.Navigator>
+                    <Stack.Screen
+                        name="AuthPage"
+                        component={AuthPage}
+                        options={{setState, setErrors}}
+                        />
+                    <Stack.Screen
+                        name="Location"
+                        component={Location}
+                    />
+                    <Stack.Screen
+                        name="Profile"
+                        component={Profile}
+                    />
+                    <Stack.Screen
+                        name="EmailAuthorize"
+                        component={EmailAuthorize}
+                    />
+                </Stack.Navigator>
+            </NavigationContainer>
+        )
+    } else {
+        return (
+            <NavigationContainer>
+                <Stack.Navigator>
+                    <Stack.Screen
+                        name="Profile"
+                        component={Profile}
+                    />
+                </Stack.Navigator>
+            </NavigationContainer>
+        )
+    }
+};
 export default App;
