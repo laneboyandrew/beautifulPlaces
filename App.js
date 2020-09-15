@@ -8,7 +8,9 @@ import Location from "./components/Location";
 import AuthPage from "./components/AuthPage";
 import Profile from "./components/Profile";
 import EmailAuthorize from "./components/EmailAuthorize";
+import UserInformation from "./components/UserInformation";
 import {createStackNavigator} from "@react-navigation/stack";
+
 
 const Stack = createStackNavigator();
 
@@ -35,6 +37,11 @@ const App = () => {
                     <Stack.Screen
                         name="EmailAuthorize"
                         component={EmailAuthorize}
+                    />
+
+                    <Stack.Screen
+                        name="UserInformation"
+                        component={UserInformation}
                     />
                 </Stack.Navigator>
             </NavigationContainer>

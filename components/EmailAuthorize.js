@@ -6,9 +6,10 @@ import {render} from "react-native-web";
 import {Container, Item, Form, Input, Button, Label, Text} from "native-base";
 import * as firebase from "firebase";
 import 'firebase/auth';
+import UserInformation from "./UserInformation";
 
 
-const EmailAuthorize = (props) => {
+const EmailAuthorize = ({navigation, props}) => {
     var config = {
         apiKey: "AIzaSyB3Iw7EdEKTaUneyZmyaYSjCdHr8uwDxng",
         authDomain: "beautifulplaces-c5df9.firebaseapp.com",
@@ -26,9 +27,9 @@ const EmailAuthorize = (props) => {
     const [userEmail, setStateEmail] = useState({});
     const [userPassword, setStatePassword] = useState({});
 
-    function signUp() {
+    async function signUp() {
         try {
-            firebase
+            await firebase
                 .auth()
                 .createUserWithEmailAndPassword(userEmail.toString(), userPassword.toString())
                 .then();
@@ -40,30 +41,42 @@ const EmailAuthorize = (props) => {
         if (emailVerified === false) {
             firebase.auth().onAuthStateChanged(function (user) {
                 user.sendEmailVerification();
+                alert("Мы отправили письмо с подтверждением Вам на электронную почту:" + userEmail)
             })
         }
     }
 
-    function LogIn() {
+    async function LogIn() {
+        await firebase.auth().currentUser.reload()
         const user = firebase.auth().currentUser;
         const emailVerified = user.emailVerified;
-        firebase.auth().currentUser.reload()
         // const newUser = firebase.user.reload()
         // console.log(newUser)
         if (emailVerified) {
             try {
-                firebase
+                await firebase
                     .auth()
                     .signInWithEmailAndPassword(userEmail.toString(), userPassword.toString())
-                    .then(res => {
-                        console.log(res.user.email);
-                    });
+                    .then(navigation.navigate('UserInformation'));
             } catch (error) {
-                console.log(error.toString());
+                switch (error.code) {
+                    case 'auth/wrong-password': {
+                        alert('Вы ввели неверный пароль')
+                        break
+                    }
+                    case 'auth/invalid-email': {
+                        alert('Вы ввели некорректный Email')
+                        break
+                    }
+                    case 'auth/user-not-found': {
+                        alert('Пользователь с таким адресом электронной почты не найден')
+                        break
+                    }
+                }
             }
         } else
-        alert("Пожалуйста, подтвердите электронную почту, мы уже направаили Вам письмо на " + userEmail + "!:)")
-            // .then(user.sendEmailVerification())
+            alert("Пожалуйста, подтвердите электронную почту, мы уже направили Вам письмо на " + userEmail + "!:)")
+        // .then(user.sendEmailVerification())
     }
 
     return (
@@ -73,27 +86,28 @@ const EmailAuthorize = (props) => {
                     <Label>Email</Label>
                     <Input autoCapitalize="none"
                            autoCorrect={false}
-                           onChangeText={email => setStateEmail(email)}
+                           onChangeText={setStateEmail}
                     />
                 </Item>
                 <Item floatingLabel>
-                    <Label>Password</Label>
+                    <Label>Пароль</Label>
                     <Input
                         secureTextEntry={true}
                         autoCapitalize="none"
                         autoCorrect={false}
-                        onChangeText={password => setStatePassword(password)}
+                        onChangeText={setStatePassword}
                     />
                 </Item>
                 <Button full rounded success onPress={() => LogIn(setStateEmail, setStatePassword)}>
-                    <Text>Login</Text>
+                    <Text>Войти</Text>
                 </Button>
                 <Button full rounded success style={{marginTop: 20}}
                         onPress={() => signUp(setStateEmail, setStatePassword)}>
-                    <Text>Signup</Text>
+                    <Text>Создать аккаунт</Text>
                 </Button>
             </Form>
         </Container>
     );
 }
+
 export default EmailAuthorize
