@@ -35,6 +35,12 @@ const EmailAuthorize = ({navigation, props}) => {
                 .then();
         } catch (error) {
             console.log(error.toString());
+            switch (error.code) {
+                case 'auth/email-already-in-use': {
+                    alert('Пользователь уже зарегистрирован')
+                    break
+                }
+            }
         }
         const user = firebase.auth().currentUser;
         const emailVerified = user.emailVerified;
@@ -47,38 +53,38 @@ const EmailAuthorize = ({navigation, props}) => {
     }
 
     async function LogIn() {
-        await firebase.auth().currentUser.reload()
-        const user = firebase.auth().currentUser;
-        const emailVerified = user.emailVerified;
-        // const newUser = firebase.user.reload()
-        // console.log(newUser)
-        if (emailVerified) {
-            try {
-                await firebase
-                    .auth()
-                    .signInWithEmailAndPassword(userEmail.toString(), userPassword.toString())
-                    .then(navigation.navigate('UserInformation'));
-            } catch (error) {
-                switch (error.code) {
-                    case 'auth/wrong-password': {
-                        alert('Вы ввели неверный пароль')
-                        break
+        await firebase.auth().onAuthStateChanged(function (user) {
+            if (user){
+                firebase.auth().currentUser.reload()
+                const userAfterReload = firebase.auth().currentUser;
+                const emailVerified = userAfterReload.emailVerified;
+                if (emailVerified) {
+                    try {
+                        firebase
+                            .auth()
+                            .signInWithEmailAndPassword(userEmail.toString(), userPassword.toString())
+                            .then(() => navigation.navigate('UserInformation'))
+                    } catch (error) {
+                        switch (error.code) {
+                            case 'auth/wrong-password': {
+                                alert('Вы ввели неверный пароль')
+                                break
+                            }
+                            case 'auth/invalid-email': {
+                                alert('Вы ввели некорректный Email')
+                                break
+                            }
+                            case 'auth/user-not-found': {
+                                alert('Пользователь с таким адресом электронной почты не зарегистрирован')
+                                break
+                            }
+                        }
                     }
-                    case 'auth/invalid-email': {
-                        alert('Вы ввели некорректный Email')
-                        break
-                    }
-                    case 'auth/user-not-found': {
-                        alert('Пользователь с таким адресом электронной почты не найден')
-                        break
-                    }
-                }
-            }
-        } else
-            alert("Пожалуйста, подтвердите электронную почту, мы уже направили Вам письмо на " + userEmail + "!:)")
-        // .then(user.sendEmailVerification())
+                } else
+                    alert("Пожалуйста, подтвердите электронную почту, мы уже направили Вам письмо на " + userEmail + "!:)")
+            } else alert("User doesn't exist")
+        });
     }
-
     return (
         <Container>
             <Form>
@@ -86,7 +92,7 @@ const EmailAuthorize = ({navigation, props}) => {
                     <Label>Email</Label>
                     <Input autoCapitalize="none"
                            autoCorrect={false}
-                           onChangeText={setStateEmail}
+                           onChangeText={userEmail => setStateEmail(userEmail)}
                     />
                 </Item>
                 <Item floatingLabel>
@@ -95,7 +101,7 @@ const EmailAuthorize = ({navigation, props}) => {
                         secureTextEntry={true}
                         autoCapitalize="none"
                         autoCorrect={false}
-                        onChangeText={setStatePassword}
+                        onChangeText={userPassword => setStatePassword(userPassword)}
                     />
                 </Item>
                 <Button full rounded success onPress={() => LogIn(setStateEmail, setStatePassword)}>
@@ -104,6 +110,10 @@ const EmailAuthorize = ({navigation, props}) => {
                 <Button full rounded success style={{marginTop: 20}}
                         onPress={() => signUp(setStateEmail, setStatePassword)}>
                     <Text>Создать аккаунт</Text>
+                </Button>
+                <Button full rounded success style={{marginTop: 20}}
+                        onPress={() => navigation.navigate('ForgotPassword')}>
+                    <Text>Забыли пароль?</Text>
                 </Button>
             </Form>
         </Container>
