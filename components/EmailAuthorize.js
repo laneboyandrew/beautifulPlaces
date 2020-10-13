@@ -27,63 +27,33 @@ const EmailAuthorize = ({navigation, props}) => {
     const [userEmail, setStateEmail] = useState({});
     const [userPassword, setStatePassword] = useState({});
 
-    async function signUp() {
-        try {
-            await firebase
-                .auth()
-                .createUserWithEmailAndPassword(userEmail.toString(), userPassword.toString())
-                .then();
-        } catch (error) {
-            console.log(error.toString());
-            switch (error.code) {
-                case 'auth/email-already-in-use': {
-                    alert('Пользователь уже зарегистрирован')
-                    break
+    async function LogIn() {
+        await firebase.auth().currentUser.reload()
+        if (!firebase.auth().currentUser.emailVerified) {
+            alert('Вы не подтвердили email')
+        } else {
+            try {
+                firebase
+                    .auth()
+                    .signInWithEmailAndPassword(userEmail.toString(), userPassword.toString())
+                    .then(() => navigation.navigate('UserInformation'))
+            } catch (error) {
+                switch (error.code) {
+                    case 'auth/wrong-password': {
+                        alert('Вы ввели неверный пароль')
+                        break
+                    }
+                    case 'auth/invalid-email': {
+                        alert('Вы ввели некорректный Email')
+                        break
+                    }
+                    case 'auth/user-not-found': {
+                        alert('Пользователь с таким адресом электронной почты не зарегистрирован')
+                        break
+                    }
                 }
             }
         }
-        const user = firebase.auth().currentUser;
-        const emailVerified = user.emailVerified;
-        if (emailVerified === false) {
-            firebase.auth().onAuthStateChanged(function (user) {
-                user.sendEmailVerification();
-                alert("Мы отправили письмо с подтверждением Вам на электронную почту:" + userEmail)
-            })
-        }
-    }
-
-    async function LogIn() {
-        await firebase.auth().onAuthStateChanged(function (user) {
-            if (user){
-                firebase.auth().currentUser.reload()
-                const userAfterReload = firebase.auth().currentUser;
-                const emailVerified = userAfterReload.emailVerified;
-                if (emailVerified) {
-                    try {
-                        firebase
-                            .auth()
-                            .signInWithEmailAndPassword(userEmail.toString(), userPassword.toString())
-                            .then(() => navigation.navigate('UserInformation'))
-                    } catch (error) {
-                        switch (error.code) {
-                            case 'auth/wrong-password': {
-                                alert('Вы ввели неверный пароль')
-                                break
-                            }
-                            case 'auth/invalid-email': {
-                                alert('Вы ввели некорректный Email')
-                                break
-                            }
-                            case 'auth/user-not-found': {
-                                alert('Пользователь с таким адресом электронной почты не зарегистрирован')
-                                break
-                            }
-                        }
-                    }
-                } else
-                    alert("Пожалуйста, подтвердите электронную почту, мы уже направили Вам письмо на " + userEmail + "!:)")
-            } else alert("User doesn't exist")
-        });
     }
     return (
         <Container>
@@ -108,7 +78,7 @@ const EmailAuthorize = ({navigation, props}) => {
                     <Text>Войти</Text>
                 </Button>
                 <Button full rounded success style={{marginTop: 20}}
-                        onPress={() => signUp(setStateEmail, setStatePassword)}>
+                        onPress={() => navigation.navigate('CreateAccount')}>
                     <Text>Создать аккаунт</Text>
                 </Button>
                 <Button full rounded success style={{marginTop: 20}}

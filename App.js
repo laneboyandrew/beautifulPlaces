@@ -11,6 +11,8 @@ import EmailAuthorize from "./components/EmailAuthorize";
 import UserInformation from "./components/UserInformation";
 import {createStackNavigator} from "@react-navigation/stack";
 import ForgotPassword from "./components/ForgotPassword";
+import CreateAccount from "./components/CreateAccount";
+
 
 const Stack = createStackNavigator();
 
@@ -45,6 +47,10 @@ const App = () => {
                     <Stack.Screen
                         name="ForgotPassword"
                         component={ForgotPassword}
+                    />
+                    <Stack.Screen
+                        name="CreateAccount"
+                        component={CreateAccount}
                     />
                 </Stack.Navigator>
             </NavigationContainer>

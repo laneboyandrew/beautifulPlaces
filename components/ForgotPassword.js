@@ -13,8 +13,8 @@ const ForgotPassword = ({navigation, props}) => {
     async function restorePassword() {
         await firebase.auth().sendPasswordResetEmail(userEmail.toString())
             .then(function (user) {
-                firebase.auth().currentUser.reload()
                 alert('Мы выслали Вам информацию для входа на email:' + userEmail)
+                navigation.navigate('EmailAuthorize')
             }).catch(function (error) {
                 console.log(error.code)
                 switch (error.code) {
