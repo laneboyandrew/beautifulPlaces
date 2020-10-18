@@ -12,6 +12,7 @@ import UserInformation from "./components/UserInformation";
 import {createStackNavigator} from "@react-navigation/stack";
 import ForgotPassword from "./components/ForgotPassword";
 import CreateAccount from "./components/CreateAccount";
+import VkAuthorize from "./components/VkAuthorize";
 
 
 const Stack = createStackNavigator();
@@ -51,6 +52,10 @@ const App = () => {
                     <Stack.Screen
                         name="CreateAccount"
                         component={CreateAccount}
+                    />
+                    <Stack.Screen
+                        name="VkAuthorize"
+                        component={VkAuthorize}
                     />
                 </Stack.Navigator>
             </NavigationContainer>
