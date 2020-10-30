@@ -17,7 +17,11 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "ru.beautiful.places",
+      "config": {
+        "googleMapsApiKey": "AIzaSyBljbCUNGItJWUcyTVmXbLFL4eg4i-RuTw"
+      }
     },
     "web": {
       "favicon": "./assets/favicon.png"
