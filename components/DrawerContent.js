@@ -15,12 +15,11 @@ import {DrawerContentScrollView, DrawerItem} from "@react-navigation/drawer";
 import {Avatar, Title, Caption, Paragraph, Drawer, Text, TouchableRipple, Switch} from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import DrawerSection from "react-native-paper/src/components/Drawer/DrawerSection";
+import {AuthContext} from "./context";
 
 export function DrawerContent(props) {
 
-    const toggleTheme = () => {
-        setIsDarkTheme(!isDarkTheme);
-    }
+    const { signOut } = React.useContext(AuthContext)
     return (
         <View style={{flex: 1}}>
             <DrawerContentScrollView{...props}>
@@ -61,7 +60,7 @@ export function DrawerContent(props) {
                                 />
                             )}
                             label="Мессенджер"
-                            onPress={() => {}}
+                            onPress={() => {props.navigation.navigate('ChatScreen')}}
                         />
                         <DrawerItem
                             icon={({color, size}) => (
@@ -72,7 +71,7 @@ export function DrawerContent(props) {
                                 />
                             )}
                             label="Избранное"
-                            onPress={() => {}}
+                            onPress={() => {props.navigation.navigate('FavouritesScreen')}}
                         />
                         <DrawerItem
                             icon={({color, size}) => (
@@ -83,7 +82,7 @@ export function DrawerContent(props) {
                                 />
                             )}
                             label="Настройки"
-                            onPress={() => {}}
+                            onPress={() => {props.navigation.navigate('SettingsScreen')}}
                         />
                         <DrawerItem
                             icon={({color, size}) => (
@@ -94,7 +93,7 @@ export function DrawerContent(props) {
                                 />
                             )}
                             label="Поддержка"
-                            onPress={() => {}}
+                            onPress={() => {props.navigation.navigate('SupportScreen')}}
                         />
                     </Drawer.Section>
                     <Drawer.Section title="Дополнительно">
@@ -102,7 +101,7 @@ export function DrawerContent(props) {
                             <View style={styles.preference}>
                                <Text>Тёмная тема</Text>
                                 <View pointerEvents="none">
-                                    <Switch value={isDarkTheme}/>
+                                    {/*<Switch value={isDarkTheme}/>*/}
                                 </View>
                             </View>
                         </TouchableRipple>
@@ -119,8 +118,7 @@ export function DrawerContent(props) {
                         />
                     )}
                     label="Выйти"
-                    onPress={() => {
-                    }}
+                    onPress={() => {signOut()}}
                 />
             </Drawer.Section>
         </View>

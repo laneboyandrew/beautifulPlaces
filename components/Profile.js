@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {Button, StyleSheet, View, Text} from "react-native";
+import {Button, StyleSheet, View, Text, ActivityIndicator} from "react-native";
 import * as AuthSession from "expo-auth-session";
 import Location from "./Location";
 
