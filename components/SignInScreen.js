@@ -5,6 +5,7 @@ import * as Animatable from 'react-native-animatable';
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import Feather from 'react-native-vector-icons/Feather'
 import {AuthContext} from "./context";
+import Users from '../model/users'
 
 import {
     View,
@@ -16,7 +17,8 @@ import {
     StyleSheet,
     Platform,
     TextInput,
-    StatusBar
+    StatusBar,
+    Alert
 } from 'react-native';
 
 const SignInScreen = ({navigation}) => {
@@ -48,10 +50,20 @@ const SignInScreen = ({navigation}) => {
     }
 
     const handlePasswordChange = (val) => {
-        setData({
-            ...data,
-            password: val
-        })
+        if(val.trim().length >= 6) {
+            setData({
+                ...data,
+                password: val,
+                isValidPassword: true
+            })
+        } else {
+            setData({
+                ...data,
+                password: val,
+                isValidPassword: false
+            })
+        }
+
     }
 
     const updateSecureTextEntry = () => {
@@ -76,7 +88,19 @@ const SignInScreen = ({navigation}) => {
     }
 
     const loginHandle = (username, password) => {
-        signIn(username, password);
+        const foundUser = Users.filter( item => {
+                return username == item.username && password == item.password
+        })
+
+        if(data.username.length == 0 || data.password.length == 0){
+            Alert.alert('Хьюстон, у нас проблемы!', 'Необходимо заполнить форму', [{text: 'Повторить'}])
+            return
+        }
+
+        if(foundUser.length == 0){
+            Alert.alert('Хьюстон, у нас проблемы!', 'Введено неверное имя пользователя или пароль', [{text: 'Повторить'}])
+        }
+        signIn(foundUser);
     }
     return (
         <View style={styles.container}>

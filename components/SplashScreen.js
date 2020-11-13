@@ -12,11 +12,14 @@ import {
     TouchableOpacity,
     ImageBackground
 } from 'react-native';
+import {useTheme} from "@react-navigation/native";
 
 
 
 
 const SplashScreen = ({navigation}) => {
+
+    const { colors } = useTheme()
     return (
         <View style={styles.container}>
             <View style={styles.header}>

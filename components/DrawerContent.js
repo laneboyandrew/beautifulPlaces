@@ -9,17 +9,20 @@ import {
     TextInput,
     Animated,
     TouchableOpacity,
-    Platform
+    Platform,
+
 } from 'react-native';
 import {DrawerContentScrollView, DrawerItem} from "@react-navigation/drawer";
-import {Avatar, Title, Caption, Paragraph, Drawer, Text, TouchableRipple, Switch} from 'react-native-paper';
+import {Avatar, Title, Caption, Paragraph, Drawer, Text, TouchableRipple, Switch, useTheme} from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import DrawerSection from "react-native-paper/src/components/Drawer/DrawerSection";
 import {AuthContext} from "./context";
 
 export function DrawerContent(props) {
 
-    const { signOut } = React.useContext(AuthContext)
+    const paperTheme = useTheme()
+    const { signOut, toggleTheme } = React.useContext(AuthContext)
+
     return (
         <View style={{flex: 1}}>
             <DrawerContentScrollView{...props}>
@@ -101,7 +104,7 @@ export function DrawerContent(props) {
                             <View style={styles.preference}>
                                <Text>Тёмная тема</Text>
                                 <View pointerEvents="none">
-                                    {/*<Switch value={isDarkTheme}/>*/}
+                                    <Switch value={paperTheme.dark}/>
                                 </View>
                             </View>
                         </TouchableRipple>

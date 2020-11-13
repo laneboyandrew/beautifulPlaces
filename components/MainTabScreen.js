@@ -20,7 +20,7 @@ const MainTabScreen = () => (
     >
         <Tab.Screen
             name="Map"
-            component={HomeStackScreen}
+            component={Map}
             options={{
                 tabBarLabel: 'Карта',
                 tabBarColor: 'black',
@@ -67,31 +67,32 @@ const MainTabScreen = () => (
 );
 
 export default MainTabScreen;
-const HomeStackScreen = ({navigation}) => (
-    <HomeStack.Navigator screenOptions={{
-        headerStyle: {
-            backgroundColor: 'black',
-        },
-        headerTintColor: "#fff",
-        headerTitleStyle: {
-            fontWeight: 'bold'
-        }
-    }}>
-        <HomeStack.Screen
-            name="Map"
-            component={Map}
-            options={{
-                title: "Карта",
-                headerLeft: () => (
-                    <Icon.Button name="ios-menu" size={25} backgroundColor="black" onPress={() => {navigation.openDrawer()}}>
-
-                    </Icon.Button>
-                )
-            }}
-        />
-    </HomeStack.Navigator>
-);
-
+// const HomeStackScreen = ({navigation}) => (
+//     <HomeStack.Navigator screenOptions={{
+//         headerStyle: {
+//             backgroundColor: 'black',
+//         },
+//         headerTintColor: "#fff",
+//         headerTitleStyle: {
+//             fontWeight: 'bold'
+//         }
+//     }}>
+//         <HomeStack.Screen
+//             name="Map"
+//             component={Map}
+//             options={{
+//                 title: "Карта",
+//                 headerTransparent: true,
+//                 headerLeft: () => (
+//                     <Icon.Button name="ios-menu" size={25} backgroundColor="black" onPress={() => {navigation.openDrawer()}}>
+//
+//                     </Icon.Button>
+//                 )
+//             }}
+//         />
+//     </HomeStack.Navigator>
+// );
+// Если хотим юзать с верхней шторкой - создаём тут компоненту и потом юзаем её в там навигаторе
 const ProfileStackScreen = ({navigation}) => (
     <ProfileStack.Navigator screenOptions={{
         headerStyle: {
