@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import MapView, {Marker, Callout} from 'react-native-maps';
 import {
     ActivityIndicator, Dimensions, FlatList, StyleSheet, Text, View, Image, TextInput, Animated, TouchableOpacity,
-    Platform, StatusBar
+    Platform, StatusBar, Button
 } from 'react-native';
 import IonIcons from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
@@ -10,7 +10,7 @@ import Fontisto from 'react-native-vector-icons/Fontisto'
 import {ScrollView, useWindowDimensions} from "react-native";
 import HTML from "react-native-render-html";
 import WebView from "react-native-webview";
-import Profile from "./Profile";
+import ProfileScreen from "./ProfileScreen";
 import {NavigationContainer} from "@react-navigation/native";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {get} from "react-native/Libraries/TurboModule/TurboModuleRegistry";
@@ -18,12 +18,17 @@ import {createStackNavigator} from "@react-navigation/stack";
 import {markers, mapNightStyle, mapStandardStyle} from "./mapData";
 import {PROVIDER_GOOGLE} from 'react-native-maps';
 import {useTheme} from '@react-navigation/native';
+import StarRating from './StarRating'
+import BottomSheet from "reanimated-bottom-sheet";
+import { SliderBox } from "react-native-image-slider-box";
 // import StarRating from '/components/StarRating'
-
+import {Animated as ReanimatedAnimated} from 'react-native-reanimated'
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 
 const {width, height} = Dimensions.get("window")
 const CARD_HEIGHT = 220;
 const CARD_WIDTH = width * 0.8;
+const IMAGE_SIZE = 200
 const SPACING_FOR_CARD_INSET = width * -0.1 - 10;
 const Map = ({navigation, props}) => {
 
@@ -74,6 +79,7 @@ const Map = ({navigation, props}) => {
             left: 0,
             right: 0,
             paddingVertical: 10,
+            // paddingHorizontal: 50,
         },
         endPadding: {
             paddingRight: width - CARD_WIDTH,
@@ -102,15 +108,17 @@ const Map = ({navigation, props}) => {
         textContent: {
             flex: 2,
             padding: 10,
+            paddingBottom: Platform.OS === 'android' ? 20 : 10
         },
         cardtitle: {
             fontSize: 12,
-            // marginTop: 5,
+            marginTop: 5,
             fontWeight: "bold",
         },
         cardDescription: {
             fontSize: 12,
             color: "#444",
+
         },
         markerWrap: {
             alignItems: "center",
@@ -136,7 +144,82 @@ const Map = ({navigation, props}) => {
         textSign: {
             fontSize: 14,
             fontWeight: 'bold'
-        }
+        },
+        search: {
+            borderColor: 'gray',
+            borderWidth: StyleSheet.hairlineWidth,
+            height: 40,
+            borderRadius: 10,
+            paddingHorizontal: 15,
+        },
+        containerBS: {
+            flex: 1,
+            backgroundColor: '#F5FCFF',
+        },
+        box: {
+            width: IMAGE_SIZE,
+            height: IMAGE_SIZE,
+        },
+        panelContainer: {
+            position: 'absolute',
+            top: 0,
+            bottom: 0,
+            left: 0,
+            right: 0,
+        },
+        panel: {
+            height: 600,
+            padding: 20,
+            backgroundColor: '#f7f5eee8',
+        },
+        header: {
+            backgroundColor: '#f7f5eee8',
+            shadowColor: '#000000',
+            paddingTop: 20,
+            borderTopLeftRadius: 20,
+            borderTopRightRadius: 20,
+        },
+        panelHeader: {
+            alignItems: 'center',
+        },
+        panelHandle: {
+            width: 40,
+            height: 8,
+            borderRadius: 4,
+            backgroundColor: '#00000040',
+            marginBottom: 10,
+        },
+        panelTitle: {
+            fontSize: 27,
+            height: 35,
+        },
+        panelSubtitle: {
+            fontSize: 14,
+            color: 'gray',
+            height: 30,
+            marginBottom: 10,
+        },
+        panelButton: {
+            padding: 20,
+            borderRadius: 10,
+            backgroundColor: '#318bfb',
+            alignItems: 'center',
+            marginVertical: 10,
+        },
+        panelButtonTitle: {
+            fontSize: 17,
+            fontWeight: 'bold',
+            color: 'white',
+        },
+        photo: {
+            width: '100%',
+            height: 225,
+            marginTop: 30,
+        },
+        map: {
+            height: '100%',
+            width: '100%',
+        },
     });
 
     const {colors} = useTheme();
@@ -170,31 +253,95 @@ const Map = ({navigation, props}) => {
             },
         ],
         region: {
-            latitude: 22.62938671242907,
-            longitude: 88.4354486029795,
-            latitudeDelta: 0.04864195044303443,
-            longitudeDelta: 0.040142817690068
+            latitude: 45.957813,
+            longitude: 34.5,
+            latitudeDelta: 1,
+            longitudeDelta: 4.5
         }
     }
 
-    const [state, setState] = React.useState(initialMapState)
+    const [state, setState] = React.useState(initialMapState);
+    const [currentMarker, setCurrentMarker] = React.useState(initialMapState.markers[0])
+
+
+    const renderInner = () => (
+                <View style={styles.panel}>
+
+                    <Text style={styles.panelTitle}>{currentMarker.title}</Text>
+                    <Text style={styles.panelSubtitle}>{currentMarker.description}</Text>
+                    <View style={{
+                        marginBottom: 10,
+                        marginLeft: -15,
+                    }}>
+                    <SliderBox
+                        images={currentMarker.images}
+                        useScrollView
+                        sliderBoxHeight={400}
+                        onCurrentImagePressed={index => console.warn(`image ${index} pressed`)}
+                        dotColor="#FFEE58"
+                        inactiveDotColor="#90A4AE"
+                        dotStyle={{
+                            width: 15,
+                            height: 15,
+                            borderRadius: 15,
+                            marginHorizontal: 10,
+                            padding: 0,
+                            margin: 0,
+                        }}
+                        resizeMode={'contain'}
+                        ImageComponentStyle={{borderRadius: 15, width: '100%'}}
+                        underlayColor="transparent"
+                        imageLoadingColor='black'
+                    />
+                    </View>
+                    <View style={{marginTop: 10}}>
+                        <Text> <Icon name='map-marker'/>{currentMarker.coordinate.latitude}, {currentMarker.coordinate.longitude}</Text>
+                    </View>
+                    <View style={{marginTop: 10}}>
+                        <StarRating ratings={currentMarker.rating} reviews={currentMarker.reviews}/>
+                    </View>
+                    <View style={styles.button}>
+                        <TouchableOpacity
+                            onPress={() => {
+                                navigation.navigate('DetailsScreen', {currentMarker: currentMarker})
+                            }}
+                            style={[styles.signIn, {
+                                borderColor: '#FF6347',
+                                borderWidth: 1
+                            }]}
+                        >
+                            <Text style={[styles.textSign, {
+                                color: '#FF6347'
+                            }]}>Подробнее</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+    )
+
+    const func1 = () => {bs.current.snapTo(0)}
+    const func2 = (markerData) => {setCurrentMarker(markerData)}
+    const onMarkerPress = (markerData) => {func1(); func2(markerData)}
 
     const _map = React.useRef(null);
-    const _scrollView = React.useRef(null);
-
+    const bs = React.createRef();
     return (
         <View style={styles.container}>
-            <StatusBar barStyle={"light-content"}/>
             <MapView
                 ref={_map}
                 initialRegion={state.region}
-                provider={PROVIDER_GOOGLE}
                 style={styles.container}
+                provider={PROVIDER_GOOGLE}
                 customMapStyle={theme.dark ? mapNightStyle : mapStandardStyle}
             >
                 {state.markers.map((marker, index) => {
+
                     return (
-                        <MapView.Marker key={index} coordinate={marker.coordinate} onPress={(e) => onMarkerPress(e)}>
+                        <MapView.Marker
+                            key={index}
+                            coordinate={marker.coordinate}
+                            onPress={
+                                () => onMarkerPress(marker)
+                            }>
                             <Animated.View style={[styles.markerWrap]}>
                                 <Animated.Image
                                     source={require('../assets/markers/marker.jpeg')}
@@ -203,45 +350,25 @@ const Map = ({navigation, props}) => {
                                 />
                             </Animated.View>
                         </MapView.Marker>
-                            )
-                            })}
-                            {/*<Marker*/}
-                            {/*    coordinate={{*/}
-                            {/*        latitude: 37.78825,*/}
-                            {/*        longitude: -122.4324,*/}
-                            {/*    }}*/}
-                            {/*>*/}
-                            {/*    <Callout tooltip>*/}
-                            {/*        <View>*/}
-                            {/*            <View style={styles.bubble}>*/}
-                            {/*                <Text style={styles.name}> Beautiful place </Text>*/}
-                            {/*                <Text> A short description for some place </Text>*/}
-                            {/*                <Text> <Image style={styles.image}*/}
-                            {/*                              source={require('../assets/images/zvezdopad.jpg')}/>*/}
-                            {/*                </Text>*/}
-                            {/*            </View>*/}
-                            {/*            <View style={styles.arrowBorder}/>*/}
-                            {/*            <View style={styles.arrow}/>*/}
-                            {/*        </View>*/}
-                            {/*    </Callout>*/}
-                            {/*</Marker>*/}
-                        </MapView>
-                    <View style={styles.searchBox}>
-                        <TextInput
-                            placeholder="Найти место"
-                            placeholderTextColor="#000"
-                            autoCapitalize="none"
-                            style={{flex: 1, padding: 0}}
-                        />
-                        <IonIcons name="ios-search" size={20} />
-                    </View>
+                    );
+                })}
+            </MapView>
+            <View style={styles.searchBox}>
+                <TextInput
+                    placeholder="Search here"
+                    placeholderTextColor="#000"
+                    autoCapitalize="none"
+                    style={{flex: 1, padding: 0}}
+                />
+                <IonIcons name="ios-search" size={20}/>
+            </View>
             <ScrollView
                 horizontal
                 scrollEventThrottle={1}
-                showHorizontalScrollIndicator={false}
+                showsHorizontalScrollIndicator={false}
                 height={50}
                 style={styles.chipsScrollView}
-                contentInset={{
+                contentInset={{ // iOS only
                     top: 0,
                     left: 0,
                     bottom: 0,
@@ -258,26 +385,17 @@ const Map = ({navigation, props}) => {
                     </TouchableOpacity>
                 ))}
             </ScrollView>
-            {/*<Animated.ScrollView*/}
-            {/*    horizontal*/}
-            {/*    scrollEventThrottle={1}*/}
-            {/*    showHorizontalScrollIndicator={false}*/}
-            {/*>*/}
-            {/*    {state.markers.map((marker, index) => (*/}
-            {/*        <View style={styles.card} key={index}>*/}
-            {/*            <Image*/}
-            {/*                source={marker.image}*/}
-            {/*                style={styles.cardImage}*/}
-            {/*                resizeMode="cover"*/}
-            {/*            />*/}
-            {/*            <View style={styles.textContent}>*/}
-            {/*                <Text numberOfLines={1} style={styles.cardtitle}>{marker.title}</Text>*/}
-            {/*                <Text numberOfLines={1} style={styles.cardDescription}>{marker.description}</Text>*/}
-            {/*            </View>*/}
-            {/*        </View>*/}
-            {/*    ))}*/}
-            {/*</Animated.ScrollView>*/}
-                </View>
-                )
-                }
-                export default Map
+
+            <BottomSheet ref={bs}
+                         snapPoints={[500, 250, 0]}
+                         borderRadius={10}
+                         renderContent={renderInner}
+                // renderHeader={renderHeader}
+                         initialSnap={2}
+            />
+        </View>
+    );
+};
+
+export default Map;
+

@@ -1,64 +1,88 @@
-const Images = [
-    {image: require("../assets/images/image64.png")},
-    {image: require("../assets/images/image2.png")},
-    {image: require("../assets/images/Vector46.png")},
-    {image: require("../assets/images/zvezdopad.jpg")},
-    {image: require("../assets/images/Group119.png")}
-]
 
+export const currentMarkerIndex = '';
 export const markers = [
     {
         coordinate: {
-            latitude: 22.6293867,
-            longitude: 88.4354486
+            latitude: 44.457673,
+            longitude: 34.088370
         },
         title: "Beautiful place 1",
         description: "Beautiful place number one",
-        image: Images[0].image,
+        images: [
+            require("../assets/images/image64.png"),
+            require("../assets/images/image2.png"),
+            require("../assets/images/Vector46.png"),
+            require("../assets/images/zvezdopad.jpg"),
+            require("../assets/images/Group119.png")
+        ],
         rating: 4,
         reviews: 99
     },
     {
         coordinate: {
-            latitude: 22.6345648,
-            longitude: 88.4377279
+            latitude: 44.522114,
+            longitude: 33.468124
         },
         title: "Beautiful place 2",
         description: "Beautiful place number one",
-        image: Images[1].image,
+        images: [
+            require("../assets/images/image64.png"),
+            require("../assets/images/image2.png"),
+            require("../assets/images/Vector46.png"),
+            require("../assets/images/zvezdopad.jpg"),
+            require("../assets/images/Group119.png")
+        ],
         rating: 5,
         reviews: 99
     },
     {
         coordinate: {
-            latitude: 22.6293867,
-            longitude: 88.4354486
+            latitude: 46.031474,
+            longitude: 33.840075
         },
         title: "Beautiful place 3",
         description: "Beautiful place number one",
-        image: Images[2].image,
+        images: [
+            require("../assets/images/image64.png"),
+            require("../assets/images/image2.png"),
+            require("../assets/images/Vector46.png"),
+            require("../assets/images/zvezdopad.jpg"),
+            require("../assets/images/Group119.png")
+        ],
         rating: 1,
         reviews: 99
     },
     {
         coordinate: {
-            latitude: 22.6293867,
-            longitude: 88.4354486
+            latitude: 45.035352,
+            longitude: 36.190333
         },
         title: "Beautiful place 4",
         description: "Beautiful place number one",
-        image: Images[3].image,
+        images: [
+            require("../assets/images/image64.png"),
+            require("../assets/images/image2.png"),
+            require("../assets/images/Vector46.png"),
+            require("../assets/images/zvezdopad.jpg"),
+            require("../assets/images/Group119.png")
+        ],
         rating: 3,
         reviews: 99
     },
     {
         coordinate: {
-            latitude: 22.6293867,
-            longitude: 88.4354486
+            latitude: 44.695316,
+            longitude: 33.884410
         },
         title: "Beautiful place 5",
         description: "Beautiful place number one",
-        image: Images[4].image,
+        images: [
+            require("../assets/images/image64.png"),
+            require("../assets/images/image2.png"),
+            require("../assets/images/Vector46.png"),
+            require("../assets/images/zvezdopad.jpg"),
+            require("../assets/images/Group119.png")
+        ],
         rating: 2,
         reviews: 99
     },

@@ -6,7 +6,7 @@ import SignInScreen from './SignInScreen';
 import SignUpScreen from './SignUpScreen';
 import AuthPage from "./AuthPage";
 import VkAuthorize from "./VkAuthorize";
-import Profile from "./Profile";
+import ProfileScreen from "./ProfileScreen";
 import EmailAuthorize from "./EmailAuthorize";
 
 const RootStack = createStackNavigator();
@@ -18,7 +18,7 @@ const RootStackScreen = ({navigation}) => (
         <RootStack.Screen name="SignUpScreen" component={SignUpScreen}/>
         <RootStack.Screen name="AuthPage" component={AuthPage}/>
         <RootStack.Screen name="VkAuthorize" component={VkAuthorize}/>
-        <RootStack.Screen name="Profile" component={Profile}/>
+        <RootStack.Screen name="Profile" component={ProfileScreen}/>
         <RootStack.Screen name="EmailAuthorize" component={EmailAuthorize}/>
     </RootStack.Navigator>
 );

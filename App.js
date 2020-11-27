@@ -6,7 +6,7 @@ import {StyleSheet, Text, View, TouchableOpacity, Button, ActivityIndicator} fro
 import * as AuthSession from 'expo-auth-session';
 import Location from "./components/Location";
 import AuthPage from "./components/AuthPage";
-import Profile from "./components/Profile";
+import ProfileScreen from "./components/ProfileScreen";
 import EmailAuthorize from "./components/EmailAuthorize";
 import UserInformation from "./components/UserInformation";
 import {createStackNavigator} from "@react-navigation/stack";
@@ -27,6 +27,7 @@ import Settings from "./components/Settings";
 import Support from "./components/Support";
 import RootStackScreen from "./components/RootStackScreen";
 import AsyncStorage from "@react-native-community/async-storage";
+import DetailsScreen from "./components/DetailsScreen";
 
 const Stack = createStackNavigator();
 
@@ -164,6 +165,7 @@ const App = ({navigation, props}) => {
                             <Drawer.Screen name="FavouritesScreen" component={Favourites}/>
                             <Drawer.Screen name="SettingsScreen" component={Settings}/>
                             <Drawer.Screen name="SupportScreen" component={Support}/>
+                            <Drawer.Screen name="DetailsScreen" component={DetailsScreen} />
                         </Drawer.Navigator>) : <RootStackScreen/>
                         //     <Drawer.Navigator drawerContent={props => <DrawerContent{...props}/>}>
                         //     <Drawer.Screen name="Map" component={MainTabScreen} />

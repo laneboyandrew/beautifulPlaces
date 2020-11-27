@@ -3,7 +3,7 @@ import {Button, StyleSheet, View} from "react-native";
 import * as AuthSession from "expo-auth-session";
 import Location from "./Location";
 import EmailAuthorize from "./EmailAuthorize";
-import Profile from "./Profile";
+import ProfileScreen from "./ProfileScreen";
 import {createStackNavigator} from "@react-navigation/stack";
 import {NavigationContainer} from "@react-navigation/native";
 import WebView from "react-native-webview";

@@ -11,65 +11,6 @@ const Images = [
     {image: require("../assets/images/Group119.png")}
 ]
 
-export const markers = [
-    {
-        coordinate: {
-            latitude: 22.6293867,
-            longitude: 88.4354486
-        },
-        title: "Beautiful place 1",
-        description: "Beautiful place number one",
-        image: Images[0].image,
-        rating: 4,
-        reviews: 99
-    },
-    {
-        coordinate: {
-            latitude: 22.6345648,
-            longitude: 88.4377279
-        },
-        title: "Beautiful place 2",
-        description: "Beautiful place number one",
-        image: Images[1].image,
-        rating: 5,
-        reviews: 99
-    },
-    {
-        coordinate: {
-            latitude: 22.6293867,
-            longitude: 88.4354486
-        },
-        title: "Beautiful place 3",
-        description: "Beautiful place number one",
-        image: Images[2].image,
-        rating: 1,
-        reviews: 99
-    },
-    {
-        coordinate: {
-            latitude: 22.6293867,
-            longitude: 88.4354486
-        },
-        title: "Beautiful place 4",
-        description: "Beautiful place number one",
-        image: Images[3].image,
-        rating: 3,
-        reviews: 99
-    },
-    {
-        coordinate: {
-            latitude: 22.6293867,
-            longitude: 88.4354486
-        },
-        title: "Beautiful place 5",
-        description: "Beautiful place number one",
-        image: Images[4].image,
-        rating: 2,
-        reviews: 99
-    },
-
-]
-
 export const mapNightStyle =
     [
         {
