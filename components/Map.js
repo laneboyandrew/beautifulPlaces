@@ -4,6 +4,8 @@ import {
     ActivityIndicator, Dimensions, FlatList, StyleSheet, Text, View, Image, TextInput, Animated, TouchableOpacity,
     Platform, StatusBar, Button
 } from 'react-native';
+
+import TabView from "teaset/components/TabView/TabView";
 import IonIcons from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import Fontisto from 'react-native-vector-icons/Fontisto'
@@ -24,6 +26,9 @@ import { SliderBox } from "react-native-image-slider-box";
 // import StarRating from '/components/StarRating'
 import {Animated as ReanimatedAnimated} from 'react-native-reanimated'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
+import Modal from "react-native-paper/src/components/Modal";
+import RCTInputAccessoryViewNativeComponent
+    from "react-native/Libraries/Components/TextInput/RCTInputAccessoryViewNativeComponent";
 
 const {width, height} = Dimensions.get("window")
 const CARD_HEIGHT = 220;
@@ -266,7 +271,6 @@ const Map = ({navigation, props}) => {
 
     const renderInner = () => (
                 <View style={styles.panel}>
-
                     <Text style={styles.panelTitle}>{currentMarker.title}</Text>
                     <Text style={styles.panelSubtitle}>{currentMarker.description}</Text>
                     <View style={{
@@ -280,6 +284,7 @@ const Map = ({navigation, props}) => {
                         onCurrentImagePressed={index => console.warn(`image ${index} pressed`)}
                         dotColor="#FFEE58"
                         inactiveDotColor="#90A4AE"
+                        autoplay
                         dotStyle={{
                             width: 15,
                             height: 15,
@@ -293,6 +298,7 @@ const Map = ({navigation, props}) => {
                         underlayColor="transparent"
                         imageLoadingColor='black'
                     />
+
                     </View>
                     <View style={{marginTop: 10}}>
                         <Text> <Icon name='map-marker'/>{currentMarker.coordinate.latitude}, {currentMarker.coordinate.longitude}</Text>
