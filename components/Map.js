@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from 'react';
+
 import MapView, {Marker, Callout} from 'react-native-maps';
 import {
     ActivityIndicator, Dimensions, FlatList, StyleSheet, Text, View, Image, TextInput, Animated, TouchableOpacity,
@@ -399,6 +400,7 @@ const Map = ({navigation, props}) => {
                 // renderHeader={renderHeader}
                          initialSnap={2}
             />
+
         </View>
     );
 };

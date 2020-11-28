@@ -70,9 +70,27 @@ const SignUpScreen = ({navigation}) => {
             confirmSecureTextEntry: !data.confirmSecureTextEntry
         })
     }
+
+    const sendUserCredentials = () => {
+        const credentials = {
+            "email": data.email,
+            "password": data.password
+        }
+        console.log(JSON.stringify(credentials))
+        fetch("http://bp.local/api/v2/users/auth_email", {
+            method: 'POST',
+            body: JSON.stringify(credentials)
+        }).then(function (response) {
+            return response.json
+        })
+            .then(function (data) {
+                    console.log(data)
+                }
+            )
+    }
     return (
         <View style={styles.container}>
-            <StatusBar backgroundColor="black" barStyle="light-content" />
+            <StatusBar backgroundColor="black" barStyle="light-content"/>
             <View style={styles.header}>
                 <Text style={styles.text_header}>
                     Регистрация
@@ -163,15 +181,17 @@ const SignUpScreen = ({navigation}) => {
                 </View>
 
                 <View style={styles.button}>
-                    <LinearGradient colors={['black', 'grey']} style={styles.signIn}>
-                        <Text style={[styles.textSign, {color: '#fff'}]}> Зарегистрироваться </Text>
-                    </LinearGradient>
+                    <TouchableOpacity style={styles.signIn} onPress={() => sendUserCredentials()}>
+                        <LinearGradient colors={['black', 'grey']} style={styles.signIn}>
+                            <Text style={[styles.textSign, {color: '#fff'}]} > Зарегистрироваться </Text>
+                        </LinearGradient>
+                    </TouchableOpacity>
 
                     <TouchableOpacity onPress={() => navigation.navigate('SignInScreen')}
                                       style={[styles.signIn, {borderColor: 'grey', borderWidth: 1, marginTop: 15}]}>
                         <Text style={[styles.textSign, {
                             color: 'grey'
-                        }]} > Войти </Text>
+                        }]}> Войти </Text>
                     </TouchableOpacity>
                 </View>
             </Animatable.View>
