@@ -77,10 +77,11 @@ const SignUpScreen = ({navigation}) => {
             "password": data.password
         }
         console.log(JSON.stringify(credentials))
-        fetch("http://bp.local/api/v2/users/auth_email", {
+        fetch("http://beautiful-places.ru/api/v2/users/reg_email", {
             method: 'POST',
             body: JSON.stringify(credentials)
         }).then(function (response) {
+            console.log(response.status)
             return response.json
         })
             .then(function (data) {

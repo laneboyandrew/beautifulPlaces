@@ -269,11 +269,18 @@ const Map = ({navigation, props}) => {
     const [state, setState] = React.useState(initialMapState);
     const [currentMarker, setCurrentMarker] = React.useState(initialMapState.markers[0])
 
+    const renderHeader = () => (
+        <View style={styles.header}>
+            <View style={styles.panelHeader}>
+                <View style={styles.panelHandle} />
+            </View>
+        </View>
+    )
 
     const renderInner = () => (
                 <View style={styles.panel}>
                     <Text style={styles.panelTitle}>{currentMarker.title}</Text>
-                    <Text style={styles.panelSubtitle}>{currentMarker.description}</Text>
+                    {/*<Text style={styles.panelSubtitle}>{currentMarker.description}</Text>*/}
                     <View style={{
                         marginBottom: 10,
                         marginLeft: -15,
@@ -285,7 +292,6 @@ const Map = ({navigation, props}) => {
                         onCurrentImagePressed={index => console.warn(`image ${index} pressed`)}
                         dotColor="#FFEE58"
                         inactiveDotColor="#90A4AE"
-                        autoplay
                         dotStyle={{
                             width: 15,
                             height: 15,
@@ -395,9 +401,10 @@ const Map = ({navigation, props}) => {
 
             <BottomSheet ref={bs}
                          snapPoints={[500, 250, 0]}
-                         borderRadius={10}
+                         enabledContentGestureInteraction={false}
+                         // borderRadius={10}
                          renderContent={renderInner}
-                // renderHeader={renderHeader}
+                         renderHeader={renderHeader}
                          initialSnap={2}
             />
 

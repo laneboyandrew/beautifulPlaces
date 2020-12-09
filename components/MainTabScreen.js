@@ -9,7 +9,7 @@ const ProfileStack = createStackNavigator();
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
 import ChatScreen from "./ChatScreen";
-import TuroperatorsScreen from "./TuropeartorsScreen";
+import SwiperScreen from "./SwiperScreen";
 import EditProfileScreen from "./EditProfileScreen";
 
 import {useTheme} from 'react-native-paper'
@@ -56,10 +56,10 @@ const MainTabScreen = () => (
             }}
         />
         <Tab.Screen
-            name="Turoperators"
-            component={TuroperatorsScreen}
+            name="Swiper"
+            component={SwiperScreen}
             options={{
-                tabBarLabel: 'Туроператоры',
+                tabBarLabel: 'Свайпер',
                 tabBarColor: 'black',
 
                 tabBarIcon: ({color}) => (

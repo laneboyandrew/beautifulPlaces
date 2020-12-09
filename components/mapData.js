@@ -9,7 +9,7 @@ export const markers = [
         title: "Beautiful place 1",
         description: "Beautiful place number one",
         images: [
-            require("../assets/images/image64.png"),
+            require("../assets/images/plohihK-348ca3c419.jpg"),
             require("../assets/images/image2.png"),
             require("../assets/images/Vector46.png"),
             require("../assets/images/zvezdopad.jpg"),
@@ -26,7 +26,7 @@ export const markers = [
         title: "Beautiful place 2",
         description: "Beautiful place number one",
         images: [
-            require("../assets/images/image64.png"),
+            require("../assets/images/plohihK-348ca3c419.jpg"),
             require("../assets/images/image2.png"),
             require("../assets/images/Vector46.png"),
             require("../assets/images/zvezdopad.jpg"),
@@ -77,7 +77,7 @@ export const markers = [
         title: "Beautiful place 5",
         description: "Beautiful place number one",
         images: [
-            require("../assets/images/image64.png"),
+            require("../assets/images/zvezdopad.jpg"),
             require("../assets/images/image2.png"),
             require("../assets/images/Vector46.png"),
             require("../assets/images/zvezdopad.jpg"),
