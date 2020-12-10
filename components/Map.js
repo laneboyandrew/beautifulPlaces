@@ -303,7 +303,7 @@ const Map = ({navigation, props}) => {
                         resizeMode={'contain'}
                         ImageComponentStyle={{borderRadius: 15, width: '100%'}}
                         underlayColor="transparent"
-                        imageLoadingColor='black'
+                        imageLoadingColor='blue'
                     />
 
                     </View>

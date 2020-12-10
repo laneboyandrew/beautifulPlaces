@@ -1,5 +1,5 @@
 import React from 'react';
-import LinearGradient from "expo-linear-gradient/build/LinearGradient";
+import {LinearGradient} from "expo-linear-gradient/build/LinearGradient";
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import * as Animatable from 'react-native-animatable';
 import FontAwesome from 'react-native-vector-icons/FontAwesome'

@@ -184,7 +184,7 @@ export default class Swiper extends React.Component {
     render() {
         return (
             <View style={{flex: 1}}>
-                <View style={{height: 60}}>
+                <View style={{height: 30}}>
 
                 </View>
                 <View style={{flex: 1}}>
