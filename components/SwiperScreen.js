@@ -15,6 +15,7 @@ import {
 const SCREEN_HEIGHT = Dimensions.get('window').height
 const SCREEN_WIDTH = Dimensions.get('window').width
 import {markers, mapNightStyle, mapStandardStyle} from "./mapData";
+import {SliderBox} from "react-native-image-slider-box";
 
 const initialSwiperState = {markers}
 
@@ -152,9 +153,30 @@ export default class Swiper extends React.Component {
                                 NOPE
                             </Text>
                         </Animated.View>
-                        <Image
-                            style={{flex: 1, height: null, width: null, resizeMode: 'cover', borderRadius: 20}}
-                            source={marker.images[0]}/>
+                        <SliderBox
+                            images={marker.images}
+                            useScrollView
+                            sliderBoxHeight={400}
+                            onCurrentImagePressed={index => console.warn(`image ${index} pressed`)}
+                            dotColor="#FFEE58"
+                            inactiveDotColor="#90A4AE"
+                            dotStyle={{
+                                width: 54,
+                                height: 6,
+                                // borderRadius: 15,
+                                marginHorizontal: -5,
+                                position: 'relative',
+                                marginLeft: 7,
+                                marginBottom: -3,
+                                padding: 0
+
+                            }}
+                            resizeMode={'contain'}
+                            ImageComponentStyle={{borderRadius: 15, width: '100%', height: '100%'}}
+                            // underlayColor="transparent"
+                            imageLoadingColor='blue'
+                            disableOnPress={true}
+                        />
 
                     </Animated.View>
                 )
@@ -171,9 +193,26 @@ export default class Swiper extends React.Component {
                         position: 'absolute'
                     }]}>
 
-                        <Image
-                            style={{flex: 1, height: null, width: null, resizeMode: 'cover', borderRadius: 20}}
-                            source={marker.images[0]}/>
+                        <SliderBox
+                            images={marker.images[0]}
+                            useScrollView
+                            sliderBoxHeight={400}
+                            onCurrentImagePressed={index => console.warn(`image ${index} pressed`)}
+                            dotColor="#FFEE58"
+                            inactiveDotColor="#90A4AE"
+                            dotStyle={{
+                                width: 15,
+                                height: 15,
+                                borderRadius: 15,
+                                marginHorizontal: 10,
+                                padding: 0,
+                                margin: 0,
+                            }}
+                            resizeMode={'contain'}
+                            ImageComponentStyle={{borderRadius: 15, width: '100%'}}
+                            underlayColor="transparent"
+                            imageLoadingColor='blue'
+                        />
 
                     </Animated.View>
                 )
